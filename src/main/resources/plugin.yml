@@ -38,6 +38,9 @@ permissions:
   hartzattack.elytra.remove:
     description: "Erlaubt /helytra remove <player>"
     default: op
+  hartzattack.elytra.use:
+    description: "Erlaubt die Nutzung vom Boost am Spawn"
+    default: not op
   hartzattack.werbung.others:
     description: "Erlaubt /werbung <on|off> <player>"
     default: op
