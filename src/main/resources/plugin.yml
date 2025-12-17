@@ -1,0 +1,16 @@
+name: HartzAttackUtil
+version: '1.0-SNAPSHOT'
+main: app.goldbach.hartzAttackUtil.HartzAttackUtil
+api-version: '1.21'
+commands:
+  command:
+    description: "Befehl zur Interaktion mit dem HartzAttack Spawn"
+    usage: "/hspawn <arg>"
+    permission: hartzattack.hspawn
+    permission-message: "Du hast nicht die benötigten Rechte für diesen Befehl"
+permissions:
+  hartzattack.spawn:
+    description: "Berechtigung für den Spawn Befehl"
+    default: op
+    children:
+      hartzattack.spawn.tp: true

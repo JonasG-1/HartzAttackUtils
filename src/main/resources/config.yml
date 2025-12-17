@@ -1,0 +1,15 @@
+spawn:
+  world: world
+  start:
+    x: 1
+    y: 1
+    z: 1
+  end:
+    x: 1
+    y: 1
+    z: 1
+  elytra-height: 200
+hartzattack:
+  bossbar: '§lHartzAttack 6 von %s§l@Ratsche §r§lauf Twitch'
+commands:
+  prefix: '§7>>§r '
