@@ -3,13 +3,17 @@ version: '1.0-SNAPSHOT'
 main: app.goldbach.hartzAttackUtil.HartzAttackUtil
 api-version: '1.21'
 commands:
-  command:
+  hspawn:
     description: "Befehl zur Interaktion mit dem HartzAttack Spawn"
     usage: "/hspawn <tp|get|set>"
-    permission: hartzattack.hspawn
+    permission: hartzattack.spawn
     permission-message: "Du hast nicht die benötigten Rechte für diesen Befehl"
+  helytra:
+    description: "Befehl zur Interaktion mit Spieler-Spawn-Elytren"
+    usage: "/helytra <height|removeall>"
+    permission: hartzattack.elytra
 permissions:
-  hartzattack.hspawn:
+  hartzattack.spawn:
     description: "Grundpermission für /hspawn"
     default: op
   hartzattack.spawn.tp:

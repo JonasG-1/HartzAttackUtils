@@ -1,5 +1,6 @@
 package app.goldbach.hartzAttackUtil;
 
+import app.goldbach.hartzAttackUtil.command.Elytra;
 import app.goldbach.hartzAttackUtil.command.Spawn;
 import app.goldbach.hartzAttackUtil.config.PluginConfig;
 import app.goldbach.hartzAttackUtil.out.Sender;
@@ -39,6 +40,7 @@ public final class HartzAttackUtil extends JavaPlugin {
     private void registerCommands() {
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
             commands.registrar().register(Spawn.createCommand(this).build());
+            commands.registrar().register(Elytra.createCommand(this).build());
         });
     }
 

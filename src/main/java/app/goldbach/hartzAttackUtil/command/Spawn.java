@@ -27,7 +27,7 @@ public class Spawn {
         Spawn handler = new Spawn(plugin);
 
         return Commands.literal("hspawn")
-            .requires(src -> src.getSender().hasPermission("hartzattack.hspawn"))
+            .requires(src -> src.getSender().hasPermission("hartzattack.spawn"))
             .then(Commands.literal("tp")
                 .requires(src -> src.getSender().hasPermission("hartzattack.spawn.tp"))
                 .executes(handler::runSpawnTp)

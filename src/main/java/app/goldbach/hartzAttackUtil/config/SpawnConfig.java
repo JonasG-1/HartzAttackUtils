@@ -44,26 +44,18 @@ public final class SpawnConfig {
         writeBlockPoint(PATH_START, start);
         writeBlockPoint(PATH_END, end);
 
+        save();
+    }
+
+    private void save() {
         plugin.saveConfig();
         plugin.reloadConfig();
         loadFromBukkitConfig();
     }
 
-    public void setSpawnFromLocations(Location start, Location end) {
-        Objects.requireNonNull(start, "start");
-        Objects.requireNonNull(end, "end");
-        if (start.getWorld() == null || end.getWorld() == null) {
-            throw new IllegalArgumentException("Start/End Location muss eine World haben.");
-        }
-        if (!start.getWorld().equals(end.getWorld())) {
-            throw new IllegalArgumentException("Start und End müssen in derselben World sein.");
-        }
-
-        setSpawn(
-            start.getWorld().getName(),
-            new BlockPoint(start.getBlockX(), start.getBlockY(), start.getBlockZ()),
-            new BlockPoint(end.getBlockX(), end.getBlockY(), end.getBlockZ())
-        );
+    public void setElytraHeight(int height) {
+        plugin.getConfig().set(PATH_ELYTRA_HEIGHT, height);
+        save();
     }
 
     /** Block-mittig (0.5) ist für Teleports oft angenehmer als exakt auf Blockkante. */
