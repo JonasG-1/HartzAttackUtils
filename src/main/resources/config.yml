@@ -10,6 +10,6 @@ spawn:
     z: 1
   elytra-height: 200
 hartzattack:
-  bossbar: '<bold>HartzAttack 6 von <color-changer>@Ratsche</color-changer></bold><reset><bold>auf Twitch</bold>'
+  bossbar: '<bold>HartzAttack 6 von <color-changer>@Ratsche</color-changer></bold> <reset><bold>auf Twitch</bold>'
 commands:
   prefix: "<dark_gray>[<dark_green>HAUtils<dark_gray>] <gray>>><reset> "

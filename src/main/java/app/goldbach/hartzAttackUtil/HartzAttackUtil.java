@@ -2,16 +2,21 @@ package app.goldbach.hartzAttackUtil;
 
 import app.goldbach.hartzAttackUtil.command.Elytra;
 import app.goldbach.hartzAttackUtil.command.Spawn;
+import app.goldbach.hartzAttackUtil.command.Werbung;
 import app.goldbach.hartzAttackUtil.config.PluginConfig;
+import app.goldbach.hartzAttackUtil.event.JoinEvent;
 import app.goldbach.hartzAttackUtil.out.Sender;
-import io.papermc.paper.plugin.lifecycle.event.LifecycleEvent;
+import app.goldbach.hartzAttackUtil.service.AdService;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public final class HartzAttackUtil extends JavaPlugin {
 
     private PluginConfig pluginConfig;
     private Sender sender;
+    private AdService adService;
 
     @Override
     public void onEnable() {
@@ -20,8 +25,10 @@ public final class HartzAttackUtil extends JavaPlugin {
 
         this.pluginConfig = new PluginConfig(this);
         this.sender = new Sender(this);
+        this.adService = new AdService(this);
 
         registerCommands();
+        registerEvents();
     }
 
     public PluginConfig pluginConfig() {
@@ -41,7 +48,12 @@ public final class HartzAttackUtil extends JavaPlugin {
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
             commands.registrar().register(Spawn.createCommand(this).build());
             commands.registrar().register(Elytra.createCommand(this).build());
+            commands.registrar().register(Werbung.createCommand(adService, this).build());
         });
+    }
+
+    private void registerEvents() {
+        this.getServer().getPluginManager().registerEvents(new JoinEvent(adService), this);
     }
 
     @Override

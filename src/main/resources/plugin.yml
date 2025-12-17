@@ -12,6 +12,10 @@ commands:
     description: "Befehl zur Interaktion mit Spieler-Spawn-Elytren"
     usage: "/helytra <height|remove>"
     permission: hartzattack.elytra
+  werbung:
+    description: "Schaltet die Werbung an oder aus"
+    usage: "/werbung [on|off|activate|deactivate]"
+    permission: hartzattack.werbung
 permissions:
   hartzattack.spawn:
     description: "Grundpermission für /hspawn"
@@ -33,4 +37,10 @@ permissions:
     default: op
   hartzattack.elytra.remove:
     description: "Erlaubt /helytra remove <player>"
+    default: op
+  hartzattack.werbung.others:
+    description: "Erlaubt /werbung <on|off> <player>"
+    default: op
+  hartzattack.werbung.admin:
+    description: "Erlaubt /werbung <activate|deactivate>"
     default: op
