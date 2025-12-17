@@ -1,8 +1,11 @@
-package app.goldbach.hartzAttackUtil.event;
+package app.goldbach.hartzAttackUtil.listener;
 
 import app.goldbach.hartzAttackUtil.HartzAttackUtil;
 import app.goldbach.hartzAttackUtil.config.SpawnConfig;
 import lombok.RequiredArgsConstructor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -17,6 +20,7 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import java.time.Duration;
 import java.util.ArrayList;
 
 @RequiredArgsConstructor
@@ -39,7 +43,7 @@ public class ElytraEvent implements Listener {
         }
 
         if (!this.isFlying(player) && isInSpawnArea(player)) {
-            plugin.getLogger().info(String.format("%s hat das Gleiten ausgelöst.", player.getName()));
+            plugin.getLogger().info(String.format("%s hat das Gleiten ausgeloest.", player.getName()));
             event.setCancelled(true);
             activateFlight(player);
         }
@@ -50,6 +54,9 @@ public class ElytraEvent implements Listener {
         Player player = event.getPlayer();
 
         if (!isInSpawnArea(player)) {
+            if (player.getAllowFlight()) {
+                enableFlightMode(player, false);
+            }
             return;
         }
 
@@ -143,7 +150,7 @@ public class ElytraEvent implements Listener {
         enableFlightMode(player, false);
 
         Bukkit.getScheduler().runTaskTimer(plugin, bukkitTask -> {
-            if (player.isOnGround()) {
+            if (isGrounded(player)) {
                 player.setGliding(false);
                 enableFlightMode(player, player.hasPermission("spawnelytra.use") && isInSpawnArea(player));
                 fly.remove(player);
@@ -154,8 +161,20 @@ public class ElytraEvent implements Listener {
     }
 
     private void enableFlightMode(Player player, boolean enable) {
-        plugin.getLogger().info(String.format("Flugmodus für %s umgestellt: %s", player.getName(), enable));
+        plugin.getLogger().info(String.format("Flugmodus fuer %s umgestellt: %s", player.getName(), enable));
         player.setAllowFlight(enable);
+        if (enable) {
+            Title title = Title.title(
+                Component.text("Flug bereit!", NamedTextColor.AQUA),
+                Component.text("Doppelsprung in der Luft zum Gleiten", NamedTextColor.WHITE),
+                Title.Times.times(Duration.ZERO, Duration.ofSeconds(4), Duration.ofMillis(400))
+            );
+            player.showTitle(title);
+        }
+    }
+
+    private boolean isGrounded(Player player) {
+        return player.getLocation().subtract(0, 0.1, 0).getBlock().getType().isSolid();
     }
 
 }

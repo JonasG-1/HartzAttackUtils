@@ -16,6 +16,8 @@ public class PluginConfig {
     }
 
     public void reload() {
+        plugin.reloadConfig();
+
         this.spawn = new SpawnConfig(plugin);
         this.hartzAttack = new HartzAttackConfig(plugin);
         this.commands = new CommandsConfig(plugin);

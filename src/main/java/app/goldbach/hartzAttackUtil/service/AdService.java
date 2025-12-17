@@ -41,6 +41,7 @@ public class AdService {
     private boolean serverEnabled = true;
     private boolean animationStarted = false;
     private int colorIndex = 0;
+    private String template;
 
     public AdService(HartzAttackUtil plugin) {
         this.plugin = plugin;
@@ -107,7 +108,7 @@ public class AdService {
     }
 
     public void startBossbarAnimation() {
-        String template = plugin.pluginConfig().hartzAttack().bossbarTemplate();
+        this.template = plugin.pluginConfig().hartzAttack().bossbarTemplate();
 
         this.bossBar = BossBar.bossBar(Component.empty(), 1.0f, BossBar.Color.PURPLE, BossBar.Overlay.PROGRESS);
 
@@ -137,5 +138,10 @@ public class AdService {
     public void hideFrom(Player player) {
         if (bossBar == null) return;
         player.hideBossBar(bossBar);
+    }
+
+    public void reload() {
+        this.template = plugin.pluginConfig().hartzAttack().bossbarTemplate();
+        plugin.getLogger().info(template);
     }
 }

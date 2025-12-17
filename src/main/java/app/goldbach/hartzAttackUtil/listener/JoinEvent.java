@@ -1,4 +1,4 @@
-package app.goldbach.hartzAttackUtil.event;
+package app.goldbach.hartzAttackUtil.listener;
 
 import app.goldbach.hartzAttackUtil.HartzAttackUtil;
 import app.goldbach.hartzAttackUtil.service.AdService;

@@ -3,12 +3,11 @@ package app.goldbach.hartzAttackUtil.out;
 import app.goldbach.hartzAttackUtil.HartzAttackUtil;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
 
 @RequiredArgsConstructor
-public class Sender {
+public class Responder {
 
     private final HartzAttackUtil plugin;
     private static final MiniMessage MM = MiniMessage.miniMessage();

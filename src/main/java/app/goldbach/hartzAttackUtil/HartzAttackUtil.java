@@ -1,13 +1,14 @@
 package app.goldbach.hartzAttackUtil;
 
 import app.goldbach.hartzAttackUtil.command.Elytra;
+import app.goldbach.hartzAttackUtil.command.Reload;
 import app.goldbach.hartzAttackUtil.command.Spawn;
 import app.goldbach.hartzAttackUtil.command.Werbung;
 import app.goldbach.hartzAttackUtil.config.PluginConfig;
-import app.goldbach.hartzAttackUtil.event.ElytraEvent;
-import app.goldbach.hartzAttackUtil.event.ElytraParticleEvent;
-import app.goldbach.hartzAttackUtil.event.JoinEvent;
-import app.goldbach.hartzAttackUtil.out.Sender;
+import app.goldbach.hartzAttackUtil.listener.ElytraEvent;
+import app.goldbach.hartzAttackUtil.listener.ElytraParticleEvent;
+import app.goldbach.hartzAttackUtil.listener.JoinEvent;
+import app.goldbach.hartzAttackUtil.out.Responder;
 import app.goldbach.hartzAttackUtil.service.AdService;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class HartzAttackUtil extends JavaPlugin {
 
     private PluginConfig pluginConfig;
-    private Sender sender;
+    private Responder responder;
     private AdService adService;
 
     @Override
@@ -26,7 +27,7 @@ public final class HartzAttackUtil extends JavaPlugin {
         reloadConfig();
 
         this.pluginConfig = new PluginConfig(this);
-        this.sender = new Sender(this);
+        this.responder = new Responder(this);
         this.adService = new AdService(this);
 
         registerCommands();
@@ -37,8 +38,8 @@ public final class HartzAttackUtil extends JavaPlugin {
         return pluginConfig;
     }
 
-    public Sender sender() {
-        return sender;
+    public Responder sender() {
+        return responder;
     }
 
     public void reloadPluginConfig() {
@@ -51,6 +52,7 @@ public final class HartzAttackUtil extends JavaPlugin {
             commands.registrar().register(Spawn.createCommand(this).build());
             commands.registrar().register(Elytra.createCommand(this).build());
             commands.registrar().register(Werbung.createCommand(adService, this).build());
+            commands.registrar().register(Reload.createCommand(responder, pluginConfig, adService).build());
         });
     }
 

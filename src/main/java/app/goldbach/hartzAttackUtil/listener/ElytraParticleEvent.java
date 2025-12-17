@@ -1,4 +1,4 @@
-package app.goldbach.hartzAttackUtil.event;
+package app.goldbach.hartzAttackUtil.listener;
 
 import org.bukkit.Color;
 import org.bukkit.Particle;
