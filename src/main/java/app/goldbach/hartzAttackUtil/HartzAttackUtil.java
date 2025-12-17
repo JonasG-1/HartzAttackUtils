@@ -1,11 +1,14 @@
 package app.goldbach.hartzAttackUtil;
 
 import app.goldbach.hartzAttackUtil.command.Spawn;
+import app.goldbach.hartzAttackUtil.config.PluginConfig;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEvent;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class HartzAttackUtil extends JavaPlugin {
+
+    private PluginConfig pluginConfig;
 
     @Override
     public void onEnable() {
