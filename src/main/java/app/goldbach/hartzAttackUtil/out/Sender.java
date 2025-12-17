@@ -14,7 +14,7 @@ public class Sender {
     private static final MiniMessage MM = MiniMessage.miniMessage();
 
     public void sendMessage(CommandSender sender, String string) {
-        sendMessage(sender, Component.text(string).color(TextColor.color(Colors.GREEN)));
+        sendMessage(sender, Component.text(string).color(Colors.GREEN));
     }
 
 

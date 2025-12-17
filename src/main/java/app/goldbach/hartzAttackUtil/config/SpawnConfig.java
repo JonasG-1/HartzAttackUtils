@@ -67,24 +67,21 @@ public final class SpawnConfig {
     }
 
     /** Block-mittig (0.5) ist für Teleports oft angenehmer als exakt auf Blockkante. */
-    public Location startLocationCentered() {
+    public Location teleportLocationCentered() {
         World world = resolveWorld();
-        return new Location(world, start.x() + 0.5, start.y(), start.z() + 0.5);
-    }
 
-    public Location endLocationCentered() {
-        World world = resolveWorld();
-        return new Location(world, end.x() + 0.5, end.y(), end.z() + 0.5);
-    }
+        int minX = Math.min(start.x(), end.x());
+        int maxX = Math.max(start.x(), end.x());
+        int minY = Math.min(start.y(), end.y());
+        int maxY = Math.max(start.y(), end.y());
+        int minZ = Math.min(start.z(), end.z());
+        int maxZ = Math.max(start.z(), end.z());
 
-    public Location startLocationBlockCorner() {
-        World world = resolveWorld();
-        return new Location(world, start.x(), start.y(), start.z());
-    }
+        double centerX = (minX + maxX + 1) / 2.0;
+        double centerY = (minY + maxY + 1) / 2.0;
+        double centerZ = (minZ + maxZ + 1) / 2.0;
 
-    public Location endLocationBlockCorner() {
-        World world = resolveWorld();
-        return new Location(world, end.x(), end.y(), end.z());
+        return new Location(world, centerX, centerY, centerZ);
     }
 
     private void loadFromBukkitConfig() {

@@ -2,6 +2,7 @@ package app.goldbach.hartzAttackUtil.command;
 
 import app.goldbach.hartzAttackUtil.HartzAttackUtil;
 import app.goldbach.hartzAttackUtil.config.SpawnConfig;
+import app.goldbach.hartzAttackUtil.out.Colors;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -12,6 +13,8 @@ import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import io.papermc.paper.command.brigadier.argument.resolvers.BlockPositionResolver;
 import io.papermc.paper.math.BlockPosition;
 import lombok.RequiredArgsConstructor;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -87,7 +90,16 @@ public class Spawn {
     }
 
     private int runSpawnTp(CommandContext<CommandSourceStack> ctx) {
+        CommandSourceStack source = ctx.getSource();
+        CommandSender sender = source.getSender();
 
+        if (!(sender instanceof Player player)) {
+            plugin.sender().sendMessage(sender, Component.text("Nur Spieler können zum Spawn teleportiert werden.").color(Colors.RED));
+        } else {
+            org.bukkit.Location location = plugin.pluginConfig().spawn().teleportLocationCentered();
+            player.teleport(location);
+            plugin.sender().sendMessage(sender, "Erfolgreich teleportiert!");
+        }
 
         return Command.SINGLE_SUCCESS;
     }
