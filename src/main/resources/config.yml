@@ -12,4 +12,4 @@ spawn:
 hartzattack:
   bossbar: '§lHartzAttack 6 von %s§l@Ratsche §r§lauf Twitch'
 commands:
-  prefix: '§7>>§r '
+  prefix: "<dark_gray>[<dark_green>HAUtils<dark_gray>] <gray>>><reset> "

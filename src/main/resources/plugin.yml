@@ -5,12 +5,19 @@ api-version: '1.21'
 commands:
   command:
     description: "Befehl zur Interaktion mit dem HartzAttack Spawn"
-    usage: "/hspawn <arg>"
+    usage: "/hspawn <tp|get|set>"
     permission: hartzattack.hspawn
     permission-message: "Du hast nicht die benötigten Rechte für diesen Befehl"
 permissions:
-  hartzattack.spawn:
-    description: "Berechtigung für den Spawn Befehl"
+  hartzattack.hspawn:
+    description: "Grundpermission für /hspawn"
     default: op
-    children:
-      hartzattack.spawn.tp: true
+  hartzattack.spawn.tp:
+    description: "Erlaubt /hspawn tp"
+    default: op
+  hartzattack.spawn.set:
+    description: "Erlaubt /hspawn set"
+    default: op
+  hartzattack.spawn.get:
+    description: "Erlaubt /hspawn get"
+    default: op

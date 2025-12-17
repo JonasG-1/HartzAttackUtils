@@ -1,6 +1,7 @@
 package app.goldbach.hartzAttackUtil.command;
 
 import app.goldbach.hartzAttackUtil.HartzAttackUtil;
+import app.goldbach.hartzAttackUtil.config.SpawnConfig;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
@@ -23,6 +24,7 @@ public class Spawn {
         Spawn handler = new Spawn(plugin);
 
         return Commands.literal("hspawn")
+            .requires(src -> src.getSender().hasPermission("hartzattack.hspawn"))
             .then(Commands.literal("tp")
                 .requires(src -> src.getSender().hasPermission("hartzattack.spawn.tp"))
                 .executes(handler::runSpawnTp)
@@ -34,7 +36,24 @@ public class Spawn {
                         .executes(handler::runSpawnSet)
                     )
                 )
+            )
+            .then(Commands.literal("get")
+                .requires(src -> src.getSender().hasPermission("hartzattack.spawn.get"))
+                .executes(handler::runSpawnGet)
             );
+    }
+
+    private int runSpawnGet(CommandContext<CommandSourceStack> ctx) {
+        CommandSourceStack source = ctx.getSource();
+        CommandSender sender = source.getSender();
+
+        SpawnConfig.BlockPoint startPoint = plugin.pluginConfig().spawn().getStart();
+        SpawnConfig.BlockPoint endPoint = plugin.pluginConfig().spawn().getEnd();
+
+        plugin.sender().sendMessage(sender, String.format("Spawn ist bei Start: %s, %s, %s; Ende: %s, %s, %s",
+            startPoint.x(), startPoint.y(), startPoint.z(), endPoint.x(), endPoint.y(), endPoint.z()));
+
+        return Command.SINGLE_SUCCESS;
     }
 
     private int runSpawnSet(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
@@ -54,22 +73,15 @@ public class Spawn {
             worldName = plugin.pluginConfig().spawn().getWorldName();
         }
 
-        plugin.getConfig().set("spawn.world", worldName);
+        SpawnConfig.BlockPoint startPoint = new SpawnConfig.BlockPoint(start.blockX(), start.blockY(), start.blockZ());
+        SpawnConfig.BlockPoint endPoint = new SpawnConfig.BlockPoint(end.blockX(), end.blockY(), end.blockZ());
 
-        plugin.getConfig().set("spawn.start.x", start.x());
-        plugin.getConfig().set("spawn.start.y", start.y());
-        plugin.getConfig().set("spawn.start.z", start.z());
+        plugin.pluginConfig().spawn().setSpawn(worldName, startPoint, endPoint);
 
-        plugin.getConfig().set("spawn.end.x", end.x());
-        plugin.getConfig().set("spawn.end.y", end.y());
-        plugin.getConfig().set("spawn.end.z", end.z());
+        plugin.sender().sendMessage(sender,
+            "Spawn gesetzt: start=(" + startPoint.x() + "," + startPoint.y() + "," + startPoint.z() + ") "
+                + "end=(" + endPoint.x() + "," + endPoint.y() + "," + endPoint.z() + ") world=" + worldName);
 
-        plugin.saveConfig();
-        plugin.reloadPluginConfig();
-
-        sender.sendMessage(plugin.pluginConfig().commands().prefix()
-            + "Spawn gesetzt: start=(" + start.x() + "," + start.y() + "," + start.z() + ") "
-            + "end=(" + end.x() + "," + end.y() + "," + end.z() + ") world=" + worldName);
 
         return Command.SINGLE_SUCCESS;
     }

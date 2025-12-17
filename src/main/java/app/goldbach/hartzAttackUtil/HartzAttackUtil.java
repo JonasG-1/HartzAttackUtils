@@ -2,6 +2,7 @@ package app.goldbach.hartzAttackUtil;
 
 import app.goldbach.hartzAttackUtil.command.Spawn;
 import app.goldbach.hartzAttackUtil.config.PluginConfig;
+import app.goldbach.hartzAttackUtil.out.Sender;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEvent;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class HartzAttackUtil extends JavaPlugin {
 
     private PluginConfig pluginConfig;
+    private Sender sender;
 
     @Override
     public void onEnable() {
@@ -16,12 +18,17 @@ public final class HartzAttackUtil extends JavaPlugin {
         reloadConfig();
 
         this.pluginConfig = new PluginConfig(this);
+        this.sender = new Sender(this);
 
         registerCommands();
     }
 
     public PluginConfig pluginConfig() {
         return pluginConfig;
+    }
+
+    public Sender sender() {
+        return sender;
     }
 
     public void reloadPluginConfig() {
