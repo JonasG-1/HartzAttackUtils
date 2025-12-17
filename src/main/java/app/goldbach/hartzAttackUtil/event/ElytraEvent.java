@@ -6,12 +6,16 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
@@ -76,6 +80,20 @@ public class ElytraEvent implements Listener {
                 event.setCancelled(true);
             }
         }
+    }
+
+    @EventHandler
+    public void onRocketUse(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if (!fly.contains(player)) return;
+
+        ItemStack item = event.getItem();
+        if (item == null || item.getType() != Material.FIREWORK_ROCKET) return;
+
+        EquipmentSlot hand = event.getHand();
+        if (hand == null) return;
+
+        event.setCancelled(true);
     }
 
     private boolean isFlying(Player player) {
