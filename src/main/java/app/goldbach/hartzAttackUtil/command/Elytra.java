@@ -41,7 +41,12 @@ public class Elytra {
     }
 
     private int runElytraRemove(CommandContext<CommandSourceStack> ctx) {
-        return 0;
+        CommandSourceStack source = ctx.getSource();
+        CommandSender sender = source.getSender();
+
+        plugin.sender().sendMessage(sender, "Der Befehl ist deaktiviert. Spieler erhalten keine Elytren mehr am Spawn.");
+
+        return Command.SINGLE_SUCCESS;
     }
 
     private int runElytraHeightGet(CommandContext<CommandSourceStack> ctx) {
