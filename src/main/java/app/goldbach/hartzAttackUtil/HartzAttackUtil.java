@@ -53,7 +53,7 @@ public final class HartzAttackUtil extends JavaPlugin {
     }
 
     private void registerEvents() {
-        this.getServer().getPluginManager().registerEvents(new JoinEvent(adService), this);
+        this.getServer().getPluginManager().registerEvents(new JoinEvent(adService, this), this);
     }
 
     @Override
