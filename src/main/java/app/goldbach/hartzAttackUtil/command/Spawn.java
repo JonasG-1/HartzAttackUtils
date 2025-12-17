@@ -14,7 +14,6 @@ import io.papermc.paper.command.brigadier.argument.resolvers.BlockPositionResolv
 import io.papermc.paper.math.BlockPosition;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -27,7 +26,6 @@ public class Spawn {
         Spawn handler = new Spawn(plugin);
 
         return Commands.literal("hspawn")
-            .requires(src -> src.getSender().hasPermission("hartzattack.spawn"))
             .then(Commands.literal("tp")
                 .requires(src -> src.getSender().hasPermission("hartzattack.spawn.tp"))
                 .executes(handler::runSpawnTp)

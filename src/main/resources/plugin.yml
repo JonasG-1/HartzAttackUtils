@@ -10,7 +10,7 @@ commands:
     permission-message: "Du hast nicht die benötigten Rechte für diesen Befehl"
   helytra:
     description: "Befehl zur Interaktion mit Spieler-Spawn-Elytren"
-    usage: "/helytra <height|removeall>"
+    usage: "/helytra <height|remove>"
     permission: hartzattack.elytra
 permissions:
   hartzattack.spawn:
@@ -24,4 +24,13 @@ permissions:
     default: op
   hartzattack.spawn.get:
     description: "Erlaubt /hspawn get"
+    default: op
+  hartzattack.elytra:
+    description: "Grundpermission für /helytra"
+    default: op
+  hartzattack.elytra.height:
+    description: "Erlaubt /helytra height <height>"
+    default: op
+  hartzattack.elytra.remove:
+    description: "Erlaubt /helytra remove <player>"
     default: op

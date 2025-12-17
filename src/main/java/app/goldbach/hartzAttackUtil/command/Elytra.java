@@ -11,8 +11,6 @@ import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 
-import java.awt.*;
-
 @RequiredArgsConstructor
 public class Elytra {
 
@@ -22,7 +20,6 @@ public class Elytra {
         Elytra handler = new Elytra(plugin);
 
         return Commands.literal("helytra")
-            .requires(src -> src.getSender().hasPermission("hartzattack.elytra"))
             .then(Commands.literal("height")
                 .then(Commands.literal("set")
                     .then(Commands.argument("height", IntegerArgumentType.integer(-64, 320))
