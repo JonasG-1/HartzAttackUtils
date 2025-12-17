@@ -5,6 +5,7 @@ import app.goldbach.hartzAttackUtil.command.Spawn;
 import app.goldbach.hartzAttackUtil.command.Werbung;
 import app.goldbach.hartzAttackUtil.config.PluginConfig;
 import app.goldbach.hartzAttackUtil.event.ElytraEvent;
+import app.goldbach.hartzAttackUtil.event.ElytraParticleEvent;
 import app.goldbach.hartzAttackUtil.event.JoinEvent;
 import app.goldbach.hartzAttackUtil.out.Sender;
 import app.goldbach.hartzAttackUtil.service.AdService;
@@ -54,8 +55,10 @@ public final class HartzAttackUtil extends JavaPlugin {
     }
 
     private void registerEvents() {
-        this.getServer().getPluginManager().registerEvents(new JoinEvent(adService, this), this);
-        this.getServer().getPluginManager().registerEvents(new ElytraEvent(this), this);
+        var manager = this.getServer().getPluginManager();
+        manager.registerEvents(new JoinEvent(adService, this), this);
+        manager.registerEvents(new ElytraEvent(this), this);
+        manager.registerEvents(new ElytraParticleEvent(), this);
     }
 
     @Override
