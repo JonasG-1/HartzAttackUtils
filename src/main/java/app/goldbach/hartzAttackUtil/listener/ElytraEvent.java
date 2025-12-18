@@ -53,15 +53,15 @@ public class ElytraEvent implements Listener {
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
-        if (!isInSpawnArea(player)) {
-            if (player.getAllowFlight() && player.getGameMode() != GameMode.CREATIVE && player.getGameMode() != GameMode.SPECTATOR) {
-                enableFlightMode(player, false);
-            }
+        // Creative/Spectator nicht anfassen
+        if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {
             return;
         }
 
-        // Creative/Spectator nicht anfassen
-        if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {
+        if (!isInSpawnArea(player)) {
+            if (player.getAllowFlight()) {
+                enableFlightMode(player, false);
+            }
             return;
         }
 
