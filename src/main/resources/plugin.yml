@@ -40,7 +40,7 @@ permissions:
     default: op
   hartzattack.elytra.use:
     description: "Erlaubt die Nutzung vom Boost am Spawn"
-    default: not op
+    default: true
   hartzattack.werbung.others:
     description: "Erlaubt /werbung <on|off> <player>"
     default: op

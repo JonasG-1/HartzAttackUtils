@@ -54,7 +54,7 @@ public class ElytraEvent implements Listener {
         Player player = event.getPlayer();
 
         if (!isInSpawnArea(player)) {
-            if (player.getAllowFlight()) {
+            if (player.getAllowFlight() && player.getGameMode() != GameMode.CREATIVE && player.getGameMode() != GameMode.SPECTATOR) {
                 enableFlightMode(player, false);
             }
             return;
@@ -90,12 +90,12 @@ public class ElytraEvent implements Listener {
     }
 
     @EventHandler
-    public void onRocketUse(PlayerInteractEvent event) {
+    public void onRocketOrTridentUse(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (!fly.contains(player)) return;
 
         ItemStack item = event.getItem();
-        if (item == null || item.getType() != Material.FIREWORK_ROCKET) return;
+        if (item == null || (item.getType() != Material.FIREWORK_ROCKET && item.getType() != Material.TRIDENT)) return;
 
         EquipmentSlot hand = event.getHand();
         if (hand == null) return;
