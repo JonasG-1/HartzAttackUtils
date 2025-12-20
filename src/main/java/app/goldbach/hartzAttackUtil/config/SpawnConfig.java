@@ -16,6 +16,7 @@ public final class SpawnConfig {
     private static final String PATH_WORLD = PATH_SPAWN + ".world";
     private static final String PATH_START = PATH_SPAWN + ".start";
     private static final String PATH_END = PATH_SPAWN + ".end";
+    private static final String PATH_SPAWN_POINT = PATH_SPAWN + ".spawn-point";
     private static final String PATH_ELYTRA_HEIGHT = PATH_SPAWN + ".elytra-height";
 
     private static final String PATH_X = "x";
@@ -27,6 +28,7 @@ public final class SpawnConfig {
     private String worldName;
     private BlockPoint start;
     private BlockPoint end;
+    private BlockPoint spawnPoint;
     private int elytraHeight;
 
     public SpawnConfig(JavaPlugin plugin) {
@@ -34,15 +36,17 @@ public final class SpawnConfig {
         loadFromBukkitConfig();
     }
 
-    public void setSpawn(String worldName, BlockPoint start, BlockPoint end) {
+    public void setSpawn(String worldName, BlockPoint start, BlockPoint end, BlockPoint spawnPoint) {
         Objects.requireNonNull(worldName, "worldName");
         Objects.requireNonNull(start, "start");
         Objects.requireNonNull(end, "end");
+        Objects.requireNonNull(spawnPoint, "spawnPoint");
 
         plugin.getConfig().set(PATH_WORLD, worldName);
 
         writeBlockPoint(PATH_START, start);
         writeBlockPoint(PATH_END, end);
+        writeBlockPoint(PATH_SPAWN_POINT, spawnPoint);
 
         save();
     }
@@ -85,7 +89,13 @@ public final class SpawnConfig {
         this.worldName = plugin.getConfig().getString(PATH_WORLD, "world");
         this.start = readBlockPointRequired(spawn, "start");
         this.end = readBlockPointRequired(spawn, "end");
+        this.spawnPoint = readBlockPointRequired(spawn, "spawn-point");
         this.elytraHeight = plugin.getConfig().getInt(PATH_ELYTRA_HEIGHT, 200);
+    }
+
+    public Location spawnLocation() {
+        World world = resolveWorld();
+        return new Location(world, spawnPoint.x() + 0.5, spawnPoint.y(), spawnPoint.z() + 0.5);
     }
 
     private void writeBlockPoint(String basePath, BlockPoint point) {

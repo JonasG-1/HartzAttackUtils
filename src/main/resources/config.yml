@@ -8,6 +8,10 @@ spawn:
     x: 1
     y: 1
     z: 1
+  spawn-point:
+    x: 1
+    y: 1
+    z: 1
   elytra-height: 200
 hartzattack:
   bossbar: '<bold>HartzAttack 6 von <color-changer>@Ratsche</color-changer></bold> <reset><bold>auf Twitch</bold>'

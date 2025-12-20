@@ -34,7 +34,9 @@ public class Spawn {
                 .requires(src -> src.getSender().hasPermission("hartzattack.spawn.set"))
                 .then(Commands.argument("start", ArgumentTypes.blockPosition())
                     .then(Commands.argument("end", ArgumentTypes.blockPosition())
-                        .executes(handler::runSpawnSet)
+                        .then(Commands.argument("spawn", ArgumentTypes.blockPosition())
+                            .executes(handler::runSpawnSet)
+                        )
                     )
                 )
             )
@@ -50,9 +52,12 @@ public class Spawn {
 
         SpawnConfig.BlockPoint startPoint = plugin.pluginConfig().spawn().getStart();
         SpawnConfig.BlockPoint endPoint = plugin.pluginConfig().spawn().getEnd();
+        SpawnConfig.BlockPoint spawnPoint = plugin.pluginConfig().spawn().getSpawnPoint();
 
-        plugin.sender().sendMessage(sender, String.format("Spawn ist bei Start: %s, %s, %s; Ende: %s, %s, %s",
-            startPoint.x(), startPoint.y(), startPoint.z(), endPoint.x(), endPoint.y(), endPoint.z()));
+        plugin.sender().sendMessage(sender, String.format("Spawn Bereich: Start %d,%d,%d bis Ende %d,%d,%d. Teleport-Punkt: %d,%d,%d",
+            startPoint.x(), startPoint.y(), startPoint.z(),
+            endPoint.x(), endPoint.y(), endPoint.z(),
+            spawnPoint.x(), spawnPoint.y(), spawnPoint.z()));
 
         return Command.SINGLE_SUCCESS;
     }
@@ -63,9 +68,11 @@ public class Spawn {
 
         BlockPositionResolver startResolver = ctx.getArgument("start", BlockPositionResolver.class);
         BlockPositionResolver endResolver = ctx.getArgument("end", BlockPositionResolver.class);
+        BlockPositionResolver spawnResolver = ctx.getArgument("spawn", BlockPositionResolver.class);
 
         BlockPosition start = startResolver.resolve(source);
         BlockPosition end = endResolver.resolve(source);
+        BlockPosition spawn = spawnResolver.resolve(source);
 
         String worldName;
         if (sender instanceof Player player) {
@@ -76,13 +83,16 @@ public class Spawn {
 
         SpawnConfig.BlockPoint startPoint = new SpawnConfig.BlockPoint(start.blockX(), start.blockY(), start.blockZ());
         SpawnConfig.BlockPoint endPoint = new SpawnConfig.BlockPoint(end.blockX(), end.blockY(), end.blockZ());
+        SpawnConfig.BlockPoint spawnPoint = new SpawnConfig.BlockPoint(spawn.blockX(), spawn.blockY(), spawn.blockZ());
 
-        plugin.pluginConfig().spawn().setSpawn(worldName, startPoint, endPoint);
+        plugin.pluginConfig().spawn().setSpawn(worldName, startPoint, endPoint, spawnPoint);
 
-        plugin.sender().sendMessage(sender,
-            "Spawn gesetzt: start=(" + startPoint.x() + "," + startPoint.y() + "," + startPoint.z() + ") "
-                + "end=(" + endPoint.x() + "," + endPoint.y() + "," + endPoint.z() + ") world=" + worldName);
-
+        plugin.sender().sendMessage(sender, String.format(
+            "Spawn erfolgreich gesetzt! Bereich: (%d,%d,%d) bis (%d,%d,%d), TP-Punkt: (%d,%d,%d) in Welt: %s",
+            startPoint.x(), startPoint.y(), startPoint.z(),
+            endPoint.x(), endPoint.y(), endPoint.z(),
+            spawnPoint.x(), spawnPoint.y(), spawnPoint.z(),
+            worldName));
 
         return Command.SINGLE_SUCCESS;
     }
@@ -94,9 +104,9 @@ public class Spawn {
         if (!(sender instanceof Player player)) {
             plugin.sender().sendMessage(sender, Component.text("Nur Spieler können zum Spawn teleportiert werden.").color(Colors.RED));
         } else {
-            org.bukkit.Location location = plugin.pluginConfig().spawn().teleportLocationCentered();
+            org.bukkit.Location location = plugin.pluginConfig().spawn().spawnLocation();
             player.teleport(location);
-            plugin.sender().sendMessage(sender, "Erfolgreich teleportiert!");
+            plugin.sender().sendMessage(sender, "Du wurdest zum Spawn teleportiert!");
         }
 
         return Command.SINGLE_SUCCESS;
